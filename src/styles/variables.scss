@@ -1,27 +1,27 @@
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
 
-$ubuntu-font: "Ubuntu", sans-serif;
+$Poppins: "Poppins", sans-serif;
 
-$bg: rgb(255, 255, 255);
-$bg2: rgb(0, 0, 0);
-$text: rgb(15, 15, 15);
-$text2: rgb(240, 240, 240);
-$primary: rgb(22, 210, 247);
+// colors
+$dark: rgb(29, 29, 29);
+$light: #fff;
+$primary: rgb(162, 162, 246);
+$bg: rgb(244, 244, 255);
 
-$spacing-sm: 8px;
+// spacing
 $spacing-md: 16px;
 $spacing-lg: 32px;
 
-$header-height: 72px;
+// border radius
+$borderRadius: 12px;
 
-$sm: 37.5em;
-$md: 48em;
-$lg: 64em;
-$xl: 75em;
+// header height
+$headerHeight: 80px;
 
 @mixin breakpoint($point) {
   @if $point == md {
-    @media (min-width: $md) {
+    // 768px
+    @media (min-width: 48em) {
       @content;
     }
   }

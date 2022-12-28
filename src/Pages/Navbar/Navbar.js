@@ -1,58 +1,84 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import styles from "./Navbar.module.scss";
+import classes from "./Navbar.module.scss";
 import { BiMenuAltRight } from "react-icons/bi";
-import { AiOutlineCloseSquare } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const menuToggler = () => setMenuOpen((p) => !p);
+  const [size, setSize] = useState({
+    width: undefined,
+    height: undefined,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (size.width > 768 && menuOpen) {
+      setMenuOpen(false);
+    }
+  }, [size.width, menuOpen]);
+
+  const menuToggleHandler = () => {
+    setMenuOpen((p) => !p);
+  };
 
   return (
-    <div className={styles.header}>
-      <div className={styles.header__content}>
-        <div>
-          <span className={styles.logo}>Task Management</span>
-        </div>
-        <div>
-          <nav
-            className={`${styles.nav} ${menuOpen ? styles[`nav--open`] : {}}`}
-          >
-            <Link className={styles.nav__item} to="/">
-              Home
-            </Link>
-            <Link className={styles.nav__item} to="/">
-              Add Task
-            </Link>
-            <Link className={styles.nav__item} to="/">
-              My Task
-            </Link>
-            <Link className={styles.nav__item} to="/">
-              Completed Tasks
-            </Link>
-            <div className={styles.nav__button__container}>
-              <Button />
-            </div>
-          </nav>
-        </div>
-        <div>
-          <div className={styles.header__button__container}>
-            <Button />
-          </div>
-          <button className={styles.header__toggler} onClick={menuToggler}>
-            {!menuOpen ? <BiMenuAltRight /> : <AiOutlineCloseSquare />}
-          </button>
+    <header className={classes.header}>
+      <div className={classes.header__content}>
+        <Link to="/" className={classes.header__content__logo}>
+          Task Management
+        </Link>
+        <nav
+          className={`${classes.header__content__nav} ${
+            menuOpen && size.width < 768 ? classes.isMenu : ""
+          }`}
+        >
+          <ul>
+            <li>
+              <Link to="/" onClick={menuToggleHandler}>
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/addtask" onClick={menuToggleHandler}>
+                Add Task
+              </Link>
+            </li>
+            <li>
+              <Link to="/" onClick={menuToggleHandler}>
+                My Tasks
+              </Link>
+            </li>
+            <li>
+              <Link to="/" onClick={menuToggleHandler}>
+                Completed Tasks
+              </Link>
+            </li>
+          </ul>
+          <Link to="/signin" onClick={menuToggleHandler}>
+            <button>SignIn</button>
+          </Link>
+        </nav>
+        <div className={classes.header__content__toggle}>
+          {!menuOpen ? (
+            <BiMenuAltRight onClick={menuToggleHandler} />
+          ) : (
+            <AiOutlineClose onClick={menuToggleHandler} />
+          )}
         </div>
       </div>
-    </div>
-  );
-};
-
-const Button = () => {
-  return (
-    <Link to="">
-      <button className={styles.button}> Sign In</button>
-    </Link>
+    </header>
   );
 };
 
