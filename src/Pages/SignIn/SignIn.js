@@ -1,7 +1,61 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { AuthContext } from "../../Contexts/AuthProvider";
+import toast from "react-hot-toast";
 
 const SignIn = () => {
+  const [error, setError] = useState("");
+
+  const { googleSignIn, signIn } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
+
+  const googleProvider = new GoogleAuthProvider();
+  const githubProvider = new GithubAuthProvider();
+
+  const handleGoogleSignIn = () => {
+    googleSignIn(googleProvider)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        navigate(from, { replace: true });
+        toast.success("Google User LoggedIn Successfully", {
+          position: "top-right",
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleLogin = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    signIn(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        form.reset();
+        setError("");
+        navigate(from, { replace: true });
+        toast.success("User LoggedIn Successfully", {
+          position: "top-right",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        setError(error.message);
+        form.reset();
+      });
+  };
+
   return (
     <div>
       <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
@@ -9,7 +63,7 @@ const SignIn = () => {
           <h1 className="text-3xl font-semibold text-center text-purple-700 uppercase">
             Sign in
           </h1>
-          <form className="mt-6">
+          <form onSubmit={handleLogin} className="mt-6">
             <div className="mb-2">
               <label
                 for="email"
@@ -19,6 +73,7 @@ const SignIn = () => {
               </label>
               <input
                 type="email"
+                name="email"
                 className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
               />
             </div>
@@ -31,6 +86,7 @@ const SignIn = () => {
               </label>
               <input
                 type="password"
+                name="password"
                 className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
               />
             </div>
@@ -45,6 +101,7 @@ const SignIn = () => {
           </div>
           <div className="flex mt-4 gap-x-2">
             <button
+              onClick={handleGoogleSignIn}
               type="button"
               className="flex items-center justify-center w-full p-2 border border-gray-600 rounded-md focus:ring-2 focus:ring-offset-1 focus:ring-violet-600"
             >

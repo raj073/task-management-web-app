@@ -1,17 +1,13 @@
-import './App.css';
+import "./App.css";
 import { RouterProvider } from "react-router-dom";
-import router from './Routes/Routes/Routes';
-import { Toaster } from 'react-hot-toast';
+import router from "./Routes/Routes/Routes";
+import { Toaster } from "react-hot-toast";
 
 function App() {
-
   return (
-
-    <div className="App">
-
+    <div className="bg-[#1D283A]">
       <RouterProvider router={router}></RouterProvider>
       <Toaster></Toaster>
-
     </div>
   );
 }
