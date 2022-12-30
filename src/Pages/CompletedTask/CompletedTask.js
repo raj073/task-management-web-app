@@ -115,7 +115,7 @@ const CompletedTask = () => {
                 <td className="py-4 px-6">
                   <button
                     onClick={() => handleCompleteTask(task)}
-                    class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-2 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mb-1 ease-linear transition-all duration-150"
+                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-2 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mb-1 ease-linear transition-all duration-150"
                     type="button"
                   >
                     Mark as Not Completed
