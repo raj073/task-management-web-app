@@ -5,6 +5,7 @@ import { BiMenuAltRight } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import toast from "react-hot-toast";
+import logo from "../../assets/images/logo.png";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);

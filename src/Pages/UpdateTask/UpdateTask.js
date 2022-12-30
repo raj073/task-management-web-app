@@ -115,7 +115,8 @@ const UpdateTask = () => {
           <label className="text-white font-medium block mt-2 font-serif mb-3 text-left">
             Task Details
           </label>
-          <input
+          <textarea
+            rows={4}
             defaultValue={taskDetails}
             className="border-solid border-gray-300 border py-2 px-4 w-full rounded text-gray-700"
             type="text"

@@ -22,19 +22,12 @@ const AddTask = () => {
 
   const imageHostKey = process.env.REACT_APP_imgbb;
 
-  // useEffect(() => {
-  //   const listener = (event) => {
-  //     if (event.code === "Enter" || event.code === "NumpadEnter") {
-  //       console.log("Enter key was pressed. Run your function.");
-  //       event.preventDefault();
-  //       handleAddTask();
-  //     }
-  //   };
-  //   document.addEventListener("keydown", listener);
-  //   return () => {
-  //     document.removeEventListener("keydown", listener);
-  //   };
-  // });
+  const handleUserKeyPress = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      // e.preventDefault();
+      handleSubmit(handleAddTask)();
+    }
+  };
 
   const handleAddTask = (data) => {
     const image = data.image[0];
@@ -109,6 +102,7 @@ const AddTask = () => {
               Task Name
             </label>
             <input
+              onKeyPress={handleUserKeyPress}
               className="border-solid border-gray-300 border py-2 px-4 w-full rounded text-gray-700"
               type="text"
               {...register("name", {
@@ -126,7 +120,9 @@ const AddTask = () => {
             <label className="font-medium block mt-2 font-serif mb-3 text-left text-white">
               Task Details
             </label>
-            <input
+            <textarea
+              rows={4}
+              onKeyPress={handleUserKeyPress}
               className="border-solid border-gray-300 border py-2 px-4 w-full rounded text-gray-700"
               type="text"
               {...register("details", {
@@ -186,6 +182,7 @@ const AddTask = () => {
             </label>
             <input
               type="file"
+              required
               {...register("image", {
                 required: "Image is Required",
               })}
