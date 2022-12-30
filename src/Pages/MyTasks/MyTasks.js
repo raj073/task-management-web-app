@@ -16,14 +16,16 @@ const MyTasks = () => {
   } = useQuery({
     queryKey: ["myTasks"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/mytask`);
+      const res = await fetch(
+        `https://task-management-web-app-server.vercel.app/mytask`
+      );
       const data = await res.json();
       return data;
     },
   });
 
   const handleDeleteTask = (_id) => {
-    fetch(`http://localhost:5000/task/${_id}`, {
+    fetch(`https://task-management-web-app-server.vercel.app/task/${_id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -36,7 +38,7 @@ const MyTasks = () => {
   };
 
   const handleUpdateCompletedStatus = (_id) => {
-    fetch(`http://localhost:5000/mytask/${_id}`, {
+    fetch(`https://task-management-web-app-server.vercel.app/mytask/${_id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -138,7 +140,7 @@ const MyTasks = () => {
                 <td className="py-4 px-6">
                   <button
                     onClick={() => handleUpdateCompletedStatus(task._id)}
-                    class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 disabled:opacity-50"
+                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 disabled:opacity-50"
                     type="button"
                     disabled={task.taskStatus === "Completed"}
                   >

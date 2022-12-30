@@ -35,7 +35,7 @@ const UpdateTask = () => {
     })
       .then((res) => res.json())
       .then((imgData) => {
-        console.log(imgData);
+        //console.log(imgData);
         if (imgData.success) {
           const updatedTask = {
             taskName: data.name,
@@ -44,16 +44,19 @@ const UpdateTask = () => {
             image: imgData.data.url,
             assingedTime: new Date(),
           };
-          fetch(`http://localhost:5000/mytask/${_id}`, {
-            method: "PATCH",
-            headers: {
-              "content-type": "application/json",
-            },
-            body: JSON.stringify(updatedTask),
-          })
+          fetch(
+            `https://task-management-web-app-server.vercel.app/mytask/${_id}`,
+            {
+              method: "PATCH",
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify(updatedTask),
+            }
+          )
             .then((res) => res.json())
             .then((data) => {
-              console.log(data);
+              //console.log(data);
               if (data.modifiedCount > 0) {
                 toast.success("Task successfully updated", {
                   position: "top-right",
@@ -168,7 +171,7 @@ const UpdateTask = () => {
 
         <button
           className="mt-4 w-full bg-green-400 hover:bg-green-600 text-white border py-3 px-6 
-          font-bold text-md rounded"
+          font-bold text-md rounded uppercase"
           type="submit"
         >
           Update Task

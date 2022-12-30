@@ -16,19 +16,24 @@ const CompletedTask = () => {
   } = useQuery({
     queryKey: ["myCompletedTasks"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/complete-task`);
+      const res = await fetch(
+        `https://task-management-web-app-server.vercel.app/complete-task`
+      );
       const data = await res.json();
       return data;
     },
   });
 
   const handleCompleteTask = (myCompletedTasks) => {
-    fetch(`http://localhost:5000/complete-task/${myCompletedTasks._id}`, {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-      },
-    })
+    fetch(
+      `https://task-management-web-app-server.vercel.app/complete-task/${myCompletedTasks._id}`,
+      {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.modifiedCount > 0) {
@@ -37,6 +42,19 @@ const CompletedTask = () => {
           );
           refetch();
           navigate("/mytasks");
+        }
+      });
+  };
+
+  const handleDeleteTask = (_id) => {
+    fetch(`https://task-management-web-app-server.vercel.app/task/${_id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.deletedCount > 0) {
+          refetch();
+          toast.success(`Task Deleted Successfully`);
         }
       });
   };
@@ -105,6 +123,7 @@ const CompletedTask = () => {
 
                 <td className="py-4 px-6">
                   <button
+                    onClick={() => handleDeleteTask(task._id)}
                     className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                   >
@@ -123,6 +142,7 @@ const CompletedTask = () => {
                 </td>
                 <td className="py-4 px-6">
                   <input
+                    defaultValue={task.taskStatus}
                     className="border-solid border-gray-300 border py-2 px-4 w-full rounded text-gray-700"
                     type="text"
                     placeholder="Your Comment"

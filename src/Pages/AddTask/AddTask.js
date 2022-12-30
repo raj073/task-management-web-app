@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../Contexts/AuthProvider";
@@ -22,23 +22,19 @@ const AddTask = () => {
 
   const imageHostKey = process.env.REACT_APP_imgbb;
 
-  useEffect(() => {
-    const listener = (event) => {
-      if (event.code === "Enter" || event.code === "NumpadEnter") {
-        console.log("Enter key was pressed. Run your function.");
-        event.preventDefault();
-        handleAddTask();
-      }
-    };
-    document.addEventListener("keydown", listener);
-    return () => {
-      document.removeEventListener("keydown", listener);
-    };
-  });
-
-  if (loading) {
-    return <Loading></Loading>;
-  }
+  // useEffect(() => {
+  //   const listener = (event) => {
+  //     if (event.code === "Enter" || event.code === "NumpadEnter") {
+  //       console.log("Enter key was pressed. Run your function.");
+  //       event.preventDefault();
+  //       handleAddTask();
+  //     }
+  //   };
+  //   document.addEventListener("keydown", listener);
+  //   return () => {
+  //     document.removeEventListener("keydown", listener);
+  //   };
+  // });
 
   const handleAddTask = (data) => {
     const image = data.image[0];
@@ -59,14 +55,13 @@ const AddTask = () => {
             taskPriority: data.priority,
             image: imgData.data.url,
             assingedBy: user?.displayName,
-            email: user.email,
+            email: data.email,
             taskStatus: "Not Completed",
             assingedTime: new Date(),
           };
-          console.log(task);
 
           // Save Task information to the database
-          fetch("http://localhost:5000/addTask", {
+          fetch("https://task-management-web-app-server.vercel.app/addTask", {
             method: "POST",
             headers: {
               "content-type": "application/json",
@@ -84,12 +79,16 @@ const AddTask = () => {
       });
   };
 
+  if (loading) {
+    return <Loading></Loading>;
+  }
+
   return (
     <div className="bg-[#1D283A]">
       <div className="mx-[10%] mt-8">
         <div className="my-5">
           <h1 className="text-3xl font-serif font-bold text-teal-600 mb-3 text-center">
-            Plase Add a Task to Explore
+            Please Add a Task to Explore
           </h1>
           <hr className="border-1 border-blue-500 cursor-pointer hover:border-orange-500 duration-500" />
         </div>
@@ -141,6 +140,24 @@ const AddTask = () => {
           </div>
 
           <div className="form-control">
+            <label className="font-medium block mt-2 font-serif mb-3 text-left text-white">
+              Your Email
+            </label>
+            <input
+              defaultValue={user?.email}
+              className="border-solid border-gray-300 border py-2 px-4 w-full rounded text-gray-700"
+              type="text"
+              {...register("email", {
+                required: "Your Email is Required",
+              })}
+              placeholder="Your Email"
+            />
+            {errors.details && (
+              <p className="text-red-500">{errors.email.message}</p>
+            )}
+          </div>
+
+          <div className="form-control">
             <label className="text-white font-medium block mt-2 font-serif mb-3 text-left">
               Priority
             </label>
@@ -181,7 +198,7 @@ const AddTask = () => {
 
           <button
             className="mt-4 w-full bg-green-400 hover:bg-green-600 text-white border py-3 px-6 
-          font-bold text-md rounded"
+          font-bold text-md rounded uppercase"
             type="submit"
           >
             Submit

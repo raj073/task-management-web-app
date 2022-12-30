@@ -16,7 +16,6 @@ const Register = () => {
     const photoURL = form.photoURL.value;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(name, photoURL, email, password);
 
     createUser(email, password)
       .then((result) => {
@@ -60,7 +59,7 @@ const Register = () => {
           <form className="mt-6" onSubmit={handleRegister}>
             <div className="mb-2">
               <label
-                for="name"
+                htmlFor="name"
                 className="block text-sm font-semibold text-gray-800 text-left"
               >
                 Name
@@ -75,7 +74,7 @@ const Register = () => {
 
             <div className="mb-2">
               <label
-                for="photoUrl"
+                htmlFor="photoUrl"
                 className="block text-sm font-semibold text-gray-800 text-left"
               >
                 Photo URL
@@ -89,7 +88,7 @@ const Register = () => {
 
             <div className="mb-2">
               <label
-                for="email"
+                htmlFor="email"
                 className="block text-sm font-semibold text-gray-800 text-left"
               >
                 Email
@@ -104,7 +103,7 @@ const Register = () => {
 
             <div className="mb-2">
               <label
-                for="password"
+                htmlFor="password"
                 className="block text-sm font-semibold text-gray-800 text-left"
               >
                 Password

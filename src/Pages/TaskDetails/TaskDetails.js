@@ -3,6 +3,7 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import Loading from "../Loading/Loading";
+import { format } from "date-fns";
 
 const TaskDetails = () => {
   const myTaskDetails = useLoaderData();
@@ -20,8 +21,10 @@ const TaskDetails = () => {
     assingedTime,
   } = myTaskDetails[0];
 
+  const postingDateAndTime = format(Date.parse(assingedTime), "PPPP");
+
   const handleUpdateNotCompletedToCompletedStatus = (_id) => {
-    fetch(`http://localhost:5000/mytask/${_id}`, {
+    fetch(`https://task-management-web-app-server.vercel.app/mytask/${_id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -39,12 +42,15 @@ const TaskDetails = () => {
   };
 
   const handleUpdateCompletedToNotCompletedStatus = (_id) => {
-    fetch(`http://localhost:5000/complete-task/${_id}`, {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-      },
-    })
+    fetch(
+      `https://task-management-web-app-server.vercel.app/complete-task/${_id}`,
+      {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.modifiedCount > 0) {
@@ -85,7 +91,8 @@ const TaskDetails = () => {
             <span className="font-bold">e-mail:</span> {email}
           </p>
           <p className="mb-2 text-lg leading-normal text-justify text-sky-600">
-            <span className="font-bold">Assigned Date:</span> {assingedTime}
+            <span className="font-bold">Assigned Date:</span>{" "}
+            {postingDateAndTime}
           </p>
           {taskStatus === "Completed" ? (
             <>

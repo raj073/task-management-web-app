@@ -20,7 +20,7 @@ const SignIn = () => {
     googleSignIn(googleProvider)
       .then((result) => {
         const user = result.user;
-        console.log(user);
+        //console.log(user);
         navigate(from, { replace: true });
         toast.success("Google User LoggedIn Successfully", {
           position: "top-right",
@@ -65,7 +65,7 @@ const SignIn = () => {
           <form onSubmit={handleLogin} className="mt-6">
             <div className="mb-2">
               <label
-                for="email"
+                htmlFor="email"
                 className="block text-sm font-semibold text-gray-800 text-left"
               >
                 Email
@@ -78,7 +78,7 @@ const SignIn = () => {
             </div>
             <div className="mb-2">
               <label
-                for="password"
+                htmlFor="password"
                 className="block text-sm font-semibold text-gray-800 text-left"
               >
                 Password
