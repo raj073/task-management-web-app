@@ -80,7 +80,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/" onClick={menuToggleHandler}>
+                <Link to="/completedtask" onClick={menuToggleHandler}>
                   Completed Tasks
                 </Link>
               </li>
@@ -111,7 +111,7 @@ const Navbar = () => {
             ) : (
               <>
                 <Link to="/signin" onClick={menuToggleHandler}>
-                  <button>SignIn</button>
+                  <button>Sign In</button>
                 </Link>
               </>
             )}

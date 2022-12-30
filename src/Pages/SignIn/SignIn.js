@@ -1,4 +1,4 @@
-import { GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
+import { GoogleAuthProvider } from "firebase/auth";
 import React, { useContext, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthProvider";
@@ -15,7 +15,6 @@ const SignIn = () => {
   const from = location.state?.from?.pathname || "/";
 
   const googleProvider = new GoogleAuthProvider();
-  const githubProvider = new GithubAuthProvider();
 
   const handleGoogleSignIn = () => {
     googleSignIn(googleProvider)

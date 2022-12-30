@@ -18,22 +18,28 @@ const Footer = () => {
           </Link>
           <ul className="flex flex-wrap items-center mb-6 text-sm text-gray-500 sm:mb-0 dark:text-gray-400">
             <li>
-              <Link to="/" className="mr-4 hover:underline md:mr-6 ">
+              <Link to="/" className="mr-4 hover:underline md:mr-6 text-white">
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/addtask" className="mr-4 hover:underline md:mr-6">
+              <Link
+                to="/addtask"
+                className="mr-4 hover:underline md:mr-6 text-white"
+              >
                 Add Task
               </Link>
             </li>
             <li>
-              <Link to="/mytasks" className="mr-4 hover:underline md:mr-6 ">
+              <Link
+                to="/mytasks"
+                className="mr-4 hover:underline md:mr-6 text-white"
+              >
                 My Tasks
               </Link>
             </li>
             <li>
-              <Link to="/" className="hover:underline">
+              <Link to="/completedtask" className="hover:underline text-white">
                 Completed Tasks
               </Link>
             </li>

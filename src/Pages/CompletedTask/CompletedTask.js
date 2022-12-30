@@ -1,42 +1,29 @@
-import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthProvider";
+import { useQuery } from "@tanstack/react-query";
 import Loading from "../Loading/Loading";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
 
-const MyTasks = () => {
+const CompletedTask = () => {
   const { loading } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const {
-    data: myTasks,
+    data: myCompletedTasks,
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["myTasks"],
+    queryKey: ["myCompletedTasks"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/mytask`);
+      const res = await fetch(`http://localhost:5000/complete-task`);
       const data = await res.json();
       return data;
     },
   });
 
-  const handleDeleteTask = (_id) => {
-    fetch(`http://localhost:5000/task/${_id}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.deletedCount > 0) {
-          refetch();
-          toast.success(`Task Deleted Successfully`);
-        }
-      });
-  };
-
-  const handleUpdateCompletedStatus = (_id) => {
-    fetch(`http://localhost:5000/mytask/${_id}`, {
+  const handleCompleteTask = (myCompletedTasks) => {
+    fetch(`http://localhost:5000/complete-task/${myCompletedTasks._id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -45,11 +32,11 @@ const MyTasks = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.modifiedCount > 0) {
-          toast.success(`Task Marked as Completed successfully!!`, {
-            position: "top-right",
-          });
+          toast.success(
+            `${myCompletedTasks.taskName} Marked as Not Completed successfully!!`
+          );
           refetch();
-          navigate("/completedtask");
+          navigate("/mytasks");
         }
       });
   };
@@ -62,7 +49,7 @@ const MyTasks = () => {
     <div className="my-5 mx-[10%] mt-8">
       <div className="my-5">
         <h1 className="text-3xl font-serif font-bold text-teal-600 mb-3 text-center">
-          My Tasks: {myTasks.length}
+          Total Completed Tasks: {myCompletedTasks.length}
         </h1>
         <hr className="border-2 border-blue-500 cursor-pointer hover:border-orange-500 duration-500 mb-3" />
       </div>
@@ -85,12 +72,12 @@ const MyTasks = () => {
                 Status
               </th>
               <th scope="col" className="py-3 px-6 text-white">
-                Task Status
+                Comment
               </th>
             </tr>
           </thead>
           <tbody>
-            {myTasks?.map((task, i) => (
+            {myCompletedTasks?.map((task, i) => (
               <tr
                 key={task._id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -118,42 +105,28 @@ const MyTasks = () => {
 
                 <td className="py-4 px-6">
                   <button
-                    onClick={() => handleDeleteTask(task._id)}
                     className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                   >
                     {" "}
                     Delete
-                  </button>{" "}
-                  <Link to={`/mytask/${task._id}`}>
-                    <button
-                      className="bg-teal-500 text-white active:bg-teal-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                      type="button"
-                    >
-                      {" "}
-                      Update
-                    </button>
-                  </Link>
-                </td>
-                <td className="py-4 px-6">
-                  <button
-                    onClick={() => handleUpdateCompletedStatus(task._id)}
-                    class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 disabled:opacity-50"
-                    type="button"
-                    disabled={task.taskStatus === "Completed"}
-                  >
-                    Completed
                   </button>
                 </td>
                 <td className="py-4 px-6">
-                  <Link to={`/taskdetails/${task._id}`}>
-                    <button
-                      className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                      type="button"
-                    >
-                      Details
-                    </button>
-                  </Link>
+                  <button
+                    onClick={() => handleCompleteTask(task)}
+                    class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-2 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                  >
+                    Mark as Not Completed
+                  </button>
+                </td>
+                <td className="py-4 px-6">
+                  <input
+                    className="border-solid border-gray-300 border py-2 px-4 w-full rounded text-gray-700"
+                    type="text"
+                    placeholder="Your Comment"
+                  />
                 </td>
               </tr>
             ))}
@@ -164,4 +137,4 @@ const MyTasks = () => {
   );
 };
 
-export default MyTasks;
+export default CompletedTask;

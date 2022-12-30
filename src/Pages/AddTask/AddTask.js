@@ -82,8 +82,6 @@ const AddTask = () => {
             });
         }
       });
-    console.log(data);
-    console.log("form submitted ✅");
   };
 
   return (
@@ -93,7 +91,7 @@ const AddTask = () => {
           <h1 className="text-3xl font-serif font-bold text-teal-600 mb-3 text-center">
             Plase Add a Task to Explore
           </h1>
-          <hr class="border-1 border-blue-500 cursor-pointer hover:border-orange-500 duration-500" />
+          <hr className="border-1 border-blue-500 cursor-pointer hover:border-orange-500 duration-500" />
         </div>
         <div className="divider"></div>
         <form
@@ -106,7 +104,7 @@ const AddTask = () => {
           >
             Add a Task
           </h1>
-          <hr class="border-1 border-white cursor-pointer hover:border-orange-500 duration-500 mb-3" />
+          <hr className="border-1 border-white cursor-pointer hover:border-orange-500 duration-500 mb-3" />
           <div className="form-control">
             <label className="font-medium block mt-2 font-serif mb-3 text-left text-white">
               Task Name
